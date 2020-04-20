@@ -8,7 +8,6 @@ w, h = pygame.display.get_surface().get_size()
 pygame.display.set_caption("Space Invaders")
 bg = pygame.image.load('full_bg.jpg')
 the_cannon = pygame.image.load('the cannon.png')
-the_explosion = pygame.image.load('the explosion.png')
 score = 0
 lives = 3
 bulletSound = pygame.mixer.Sound('Laser.wav')
