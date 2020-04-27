@@ -8,10 +8,11 @@ w, h = pygame.display.get_surface().get_size()
 pygame.display.set_caption("Space Invaders")
 bg = pygame.image.load('full_bg.jpg')
 the_cannon = pygame.image.load('the cannon.png')
+the_explosion = pygame.image.load('the explosion.png')
 score = 0
 lives = 3
 bulletSound = pygame.mixer.Sound('Laser.wav')
-music = pygame.mixer.music.load('Emotion.mp3')
+music = pygame.mixer.music.load('theme.mp3')
 pygame.mixer.music.play(-1)
 all_enemies = [pygame.image.load('the enemy.png'), pygame.image.load('the enemy1.png'), pygame.image.load('the enemy2.png'), pygame.image.load('the enemy4.png'), pygame.image.load('the enemy5.png'), pygame.image.load('the enemy6.png'),]
 
@@ -46,7 +47,8 @@ class Ship(object):
         self.width = width
         self.height = height
         self.vel = 8
-        self.the_enemy = all_enemies[random.randrange(6)]
+        self.pos = random.randrange(6)
+        self.the_enemy = all_enemies[self.pos]
 
     def draw(self, screen):
         screen.blit(self.the_enemy, (self.x, self.y))
@@ -68,9 +70,9 @@ def redrawGameWindow():
     for enemy in enemies:
         for bullet in bullets:
             if((bullet.y < enemy.y + enemy.height) and (bullet.y > enemy.y) and (bullet.x > enemy.x) and (bullet.x < enemy.x + enemy.width)):
+                score = score + ((enemy.pos + 1) * 10)
                 bullets.pop(bullets.index(bullet))
                 enemies.pop(enemies.index(enemy))
-                score += 10
 
     for enemy in enemies:
         if(enemy.y + enemy.height >= h):
@@ -86,6 +88,7 @@ running = True
 bullets = []
 enemies = []
 explosions = []
+pos = 0
 
 cannon = Cannon(w // 2, h - 78, 64, 64)
 font = pygame.font.SysFont('comicsans', 40, True)
